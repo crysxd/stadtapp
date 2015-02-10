@@ -16,6 +16,7 @@ import stadtapp.hfu.de.stadtapp.tabs.SightListFragment;
 import stadtapp.hfu.de.stadtapp.tabs.SightMapFragment;
 
 import de.hfu.stadtapp.R;
+import stadtapp.hfu.de.stadtapp.tabs.UserListFragment;
 
 public class MainActivity extends DialogHostActivity {
 
@@ -29,6 +30,9 @@ public class MainActivity extends DialogHostActivity {
 		vpPager = (ViewPager) findViewById(R.id.vpPager);
 		adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
 		vpPager.setAdapter(adapterViewPager);
+
+        //Force all three tabs to be loaded
+        vpPager.setOffscreenPageLimit(3);
 
 		ActionBar actionBar = getActionBar();
 		// Specify that tabs should be displayed in the action bar.
@@ -101,7 +105,7 @@ public class MainActivity extends DialogHostActivity {
 	}
 
 	public class MyPagerAdapter extends FragmentPagerAdapter {
-		private int NUM_ITEMS = 2;
+		private int NUM_ITEMS = 3;
 		
 		public MyPagerAdapter(FragmentManager fragmentManager) {
 			super(fragmentManager);
@@ -120,7 +124,9 @@ public class MainActivity extends DialogHostActivity {
 			switch (position) {
 			case 0:
 				return new SightListFragment(MainActivity.this);
-			case 1:
+            case 1:
+                return new UserListFragment(MainActivity.this);
+			case 2:
 				return new SightMapFragment(MainActivity.this);
 			default:
 				return null;
@@ -133,7 +139,9 @@ public class MainActivity extends DialogHostActivity {
 			switch (position) {
 			case 0:
 				return "Sights";
-			case 1:
+            case 1:
+                return "Users";
+			case 2:
 				return "Map";
 			default:
 				return null;
