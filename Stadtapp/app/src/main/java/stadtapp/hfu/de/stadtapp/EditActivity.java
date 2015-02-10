@@ -10,6 +10,7 @@ import android.graphics.Matrix;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -33,6 +35,7 @@ public class EditActivity extends DialogHostActivity implements OnClickListener 
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1888;
     private Bitmap currentImage;
     private File imageFile;
+    private String user;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,38 @@ public class EditActivity extends DialogHostActivity implements OnClickListener 
 		
 		if(mySight == null)
 			mySight = new Sight();
+
+
+        this.user = PreferenceManager.getDefaultSharedPreferences(this).getString("user", null);
+        if(this.user == null) {
+            final EditText userInput = new EditText(this);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Enter user name");
+            builder.setMessage("Please enter a user name");
+            builder.setView(userInput);
+            builder.setCancelable(false);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String user = userInput.getText().toString();
+
+                    if(user.length() == 0) {
+                        Toast.makeText(EditActivity.this, "Not a valid user name", Toast.LENGTH_LONG).show();
+                        EditActivity.this.finish();
+
+                    }
+
+                    PreferenceManager.getDefaultSharedPreferences(EditActivity.this).edit().putString("user", user).commit();
+                    EditActivity.this.user = user;
+                    
+                }
+            });
+
+            builder.create().show();
+
+
+        }
 		
 		((EditText) findViewById(R.id.editTextName)).setText(mySight.getName());
 		((EditText) findViewById(R.id.editTextContent)).setText(mySight.getContent());
@@ -100,6 +135,7 @@ public class EditActivity extends DialogHostActivity implements OnClickListener 
 		int id = item.getItemId();
 		if (id == R.id.action_save) {
 			this.mySight.setName(((EditText) findViewById(R.id.editTextName)).getText().toString());
+            this.mySight.setUser(this.user);
 			this.mySight.setContent(((EditText) findViewById(R.id.editTextContent)).getText().toString());
 			this.mySight.setImage(this, currentImage);
 			Location l = LocationProvider.getLocationProvider(this).getCurrentLocation();
