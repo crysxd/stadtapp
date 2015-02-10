@@ -43,7 +43,7 @@ public class SightList extends HashMap<String, Sight> {
     public Object[] getAllUsers() {
         List<String> users = new ArrayList<>();
         for(Sight s : this.values()) {
-            if(users.contains(s.getUser())) {
+            if(!users.contains(s.getUser())) {
                 users.add(s.getUser());
 
             }
