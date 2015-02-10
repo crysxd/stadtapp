@@ -90,7 +90,7 @@ public class SightActivity extends DialogHostActivity {
 		super.onResume();
 		vpPager.setCurrentItem(getActionBar().getSelectedTab().getPosition());	
 		getActionBar().setTitle(mySight.getName());
-		getActionBar().setSubtitle(String.format("%.2f km", LocationProvider.getLocationProvider(this).distanceToLocation(mySight.getLatitude(), mySight.getLongitude())/1000));
+		getActionBar().setSubtitle(String.format("%.2f km | posted by %s", LocationProvider.getLocationProvider(this).distanceToLocation(mySight.getLatitude(), mySight.getLongitude())/1000, mySight.getUser()));
 
 	}
 	
