@@ -27,24 +27,25 @@ public class SightMapFragment extends SupportMapFragment implements SightListLoa
 	private SightList list = null;
 	private HashMap<String, Sight> markerSightPair = new HashMap<>();
 	private Sight mySight = null;
+    private DialogHostActivity host;
 
 	public SightMapFragment(Sight sight) {
 		mySight = sight;
 	}
 	
 	public SightMapFragment(DialogHostActivity host) {
-		SightListLoader loader = new SightListLoader(host, this);
-		loader.execute();
+        this.host = host;
+
 	}
 
 	@Override
 	public void onResume() {
-		super.onResume();
+        super.onResume();
 
-		if(list != null) {
-			this.listLoaded(list);
-		
-		} else if(mySight != null) {
+        SightListLoader loader = new SightListLoader(host, this);
+        loader.execute();
+
+		if(mySight != null) {
 			this.getMap().clear();
 			MarkerOptions m = new MarkerOptions().position(new LatLng(mySight.getLatitude(), mySight.getLongitude())).title(mySight.getName());
 			this.getMap().addMarker(m);
