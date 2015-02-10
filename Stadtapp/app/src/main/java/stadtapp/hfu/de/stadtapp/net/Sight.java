@@ -136,11 +136,11 @@ public class Sight {
 	}
 
     public void setUser(String user) {
-        this.user = user;
+        this.user = Uri.encode(user);;
     }
 
     public String getUser() {
-        return user;
+        return Uri.decode(user);
     }
 
     public void setImage(Context ctx, Bitmap image) {
