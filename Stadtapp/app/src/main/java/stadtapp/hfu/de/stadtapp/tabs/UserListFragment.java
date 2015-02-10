@@ -8,7 +8,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 
 import stadtapp.hfu.de.stadtapp.DialogHostActivity;
-import stadtapp.hfu.de.stadtapp.SightActivity;
+import stadtapp.hfu.de.stadtapp.UserActivity;
 import stadtapp.hfu.de.stadtapp.net.SightList;
 import stadtapp.hfu.de.stadtapp.net.SightListLoader;
 import stadtapp.hfu.de.stadtapp.net.SightListLoaderListener;
@@ -39,7 +39,7 @@ public class UserListFragment extends ListFragment implements SightListLoaderLis
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		String s = (String) this.getListAdapter().getItem(position);
-		Intent i = new Intent(this.getActivity(), SightActivity.class);
+		Intent i = new Intent(this.getActivity(), UserActivity.class);
 		i.putExtra("user", s);
 		this.getActivity().startActivity(i);	
 	}
