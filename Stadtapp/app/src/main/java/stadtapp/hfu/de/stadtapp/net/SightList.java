@@ -21,6 +21,10 @@ public class SightList extends HashMap<String, Sight> {
 			instance =  new SightList(ctx);
 		return instance;
 	}
+
+    private SightList() {
+
+    }
 	
 	private SightList(Context ctx) throws Exception {
 		Resty r = new Resty();
@@ -50,6 +54,19 @@ public class SightList extends HashMap<String, Sight> {
         }
 
         return users.toArray();
+
+    }
+
+    public SightList getAllUserSights(String user){
+        SightList l = new SightList();
+        for(String s : this.keySet()) {
+            if(this.get(s).getUser().equals(user)) {
+               l.put(s, this.get(s));
+
+            }
+        }
+
+        return l;
 
     }
 }
