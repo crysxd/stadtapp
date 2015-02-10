@@ -16,23 +16,43 @@ import stadtapp.hfu.de.stadtapp.net.SightListLoaderListener;
 public class SightListFragment extends ListFragment implements SightListLoaderListener, OnItemClickListener {
 		
 	private DialogHostActivity host;
-	
+	private String user;
+
 	public SightListFragment(DialogHostActivity host) {
 		this.host = host;
 				
 	}
+
+    public SightListFragment(DialogHostActivity host, String user) {
+        this(host);
+        this.user = user;
+
+    }
 	
 	@Override
 	public void listLoaded(SightList list) {
 		this.setListAdapter(new SightListAdapter(getActivity(), list));
-		this.getListView().setOnItemClickListener(this);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		SightListLoader loader = new SightListLoader(host, this);
-		loader.execute();
+
+        this.getListView().setOnItemClickListener(this);
+
+        if(user == null) {
+            SightListLoader loader = new SightListLoader(host, this);
+            loader.execute();
+
+        } else {
+            try {
+                this.setListAdapter(new SightListAdapter(getActivity(), SightList.getSightList(this.getActivity()).getAllUserSights(this.user)));
+
+            } catch(Exception e) {
+                e.printStackTrace();
+
+            }
+        }
 	}
 
 	@Override
