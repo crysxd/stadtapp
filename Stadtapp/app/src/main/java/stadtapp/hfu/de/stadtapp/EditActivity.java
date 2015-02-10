@@ -73,7 +73,8 @@ public class EditActivity extends DialogHostActivity implements OnClickListener 
                     if(user.length() == 0) {
                         Toast.makeText(EditActivity.this, "Not a valid user name", Toast.LENGTH_LONG).show();
                         EditActivity.this.finish();
-
+                        return;
+                        
                     }
 
                     PreferenceManager.getDefaultSharedPreferences(EditActivity.this).edit().putString("user", user).commit();
