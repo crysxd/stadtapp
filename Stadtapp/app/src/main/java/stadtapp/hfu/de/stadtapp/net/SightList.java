@@ -22,6 +22,13 @@ public class SightList extends HashMap<String, Sight> {
 		return instance;
 	}
 
+    public static SightList createSingleSightList(Sight s) {
+        SightList l = new SightList();;
+        l.put(s.getId(), s);
+        return l;
+
+    }
+
     private SightList() {
 
     }
