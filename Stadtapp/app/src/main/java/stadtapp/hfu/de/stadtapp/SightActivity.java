@@ -158,7 +158,7 @@ public class SightActivity extends DialogHostActivity {
 			case 1:
 				return new ImageFragment(mySight);
 			case 2:
-				return new SightMapFragment(mySight);
+				return new SightMapFragment(SightList.createSingleSightList(mySight));
 			default:
 				return null;
 			}
