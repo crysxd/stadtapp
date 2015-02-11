@@ -26,10 +26,10 @@ public class SightMapFragment extends SupportMapFragment implements SightListLoa
 
 	private SightList list = null;
 	private HashMap<String, Sight> markerSightPair = new HashMap<>();
-	private Sight mySight = null;
+	private SightList mySight = null;
     private DialogHostActivity host;
 
-	public SightMapFragment(Sight sight) {
+	public SightMapFragment(SightList sight) {
 		mySight = sight;
 	}
 	
@@ -42,19 +42,14 @@ public class SightMapFragment extends SupportMapFragment implements SightListLoa
 	public void onResume() {
         super.onResume();
 
-        SightListLoader loader = new SightListLoader(host, this);
-        loader.execute();
-
 		if(mySight != null) {
-			this.getMap().clear();
-			MarkerOptions m = new MarkerOptions().position(new LatLng(mySight.getLatitude(), mySight.getLongitude())).title(mySight.getName());
-			this.getMap().addMarker(m);
-			this.getMap().setMyLocationEnabled(true);
-			CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(mySight.getLatitude(), mySight.getLongitude()));
-			CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
-			this.getMap().moveCamera(center);
-			this.getMap().animateCamera(zoom);
-		}
+			this.listLoaded(this.mySight);
+
+		} else {
+            SightListLoader loader = new SightListLoader(host, this);
+            loader.execute();
+
+        }
 	}
 
 	@Override
